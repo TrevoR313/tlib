@@ -149,3 +149,21 @@ def parseCookieFile(cookiefile: str) -> dict:
                 lineFields = line.strip().split('\t')
                 cookies[lineFields[-1 - 1]] = lineFields[-1]
     return cookies
+
+def parseHeaders(Headers: str) -> dict:
+    """
+    Converts a multi-line string containing HTTP headers into a dictionary.
+    :param Headers: A multi-line string with an HTTP header on each line.
+    :type Headers: str
+    :rtype: dict
+    """
+    parsed = {}
+    list_parsed = [
+        [i.split(":")[0], i.split(":")[-1][1:]]
+        if i.split(":")[-1][0] == " "
+        else [i.split(":")[0], i.split(":")[-1]]
+        for i in [i for i in Headers.splitlines() if i != ""]
+    ]
+    for i in list_parsed:
+        parsed.update({i[0]: i[-1]})
+    return parsed
