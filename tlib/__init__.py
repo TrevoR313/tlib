@@ -1,8 +1,31 @@
 from sys import stdin
 from os import path
+from requests import get
+from tqdm import tqdm
 from subprocess import run
 import re
 
+def download(url: str, fname: str):
+    try:
+        with open(fname, "ab") as f, tqdm(
+        ) as bar:
+            headers = {}
+            pos = f.tell()
+            if pos:
+                headers["Range"] = f"bytes={pos}-"
+            resp = get(url, headers=headers, stream=True)
+            total_size = int(resp.headers.get("content-length", 0))
+            bar.desc=fname
+            bar.iterable=resp.iter_content(chunk_size=1024)
+            bar.total=total_size
+            bar.unit="iB"
+            bar.unit_scale=True
+            bar.unit_divisor=1024
+            for data in resp.iter_content(chunk_size=1024):
+                size = f.write(data)
+                bar.update(size)
+    except KeyboardInterrupt:
+        quit()
 
 def gen(num, sep):
     i, o = 0, ""

@@ -7,5 +7,9 @@ setup(
     author='TrevoR',
     license='MIT',
     packages=['tlib'],
+    install_requires=[
+        'tqdm',
+        'requests'
+    ],
     zip_safe=False
 )
