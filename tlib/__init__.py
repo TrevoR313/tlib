@@ -1,4 +1,4 @@
-from typing import List, Dict, Callable, overload
+from typing import List, Dict, Callable
 from sys import stdin
 from os import path
 from requests import get
