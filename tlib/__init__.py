@@ -1,3 +1,4 @@
+from typing import List, Dict, Callable, overload
 from sys import stdin
 from os import path
 from requests import get
@@ -5,12 +6,12 @@ from tqdm import tqdm
 from subprocess import run
 import re
 
-def download(url: str, fname: str):
+def download(url: str, fname: str) -> None:
     try:
         with open(fname, "ab") as f, tqdm(
         ) as bar:
-            headers = {}
-            pos = f.tell()
+            headers: Dict = {}
+            pos: int = f.tell()
             if pos:
                 headers["Range"] = f"bytes={pos}-"
             resp = get(url, headers=headers, stream=True)
@@ -27,8 +28,9 @@ def download(url: str, fname: str):
     except KeyboardInterrupt:
         quit()
 
-def gen(num, sep):
-    i, o = 0, ""
+def gen(num: int, sep: str) -> str:
+    i: int = 0
+    o: str = ""
     while i < num:
         o += sep
         i += 1
@@ -37,10 +39,10 @@ def gen(num, sep):
 
 def ezstdin():
     if stdin.isatty():
-        o = False
+        o: bool = False
         return o
     else:
-        o = []
+        o: List[str] = []
         for line in stdin.readlines():
             o.append(line)
         return o
@@ -58,7 +60,7 @@ def arch(line):
 def clean(str): return str.lstrip().rstrip().strip()
 
 
-def hrs(size, decimal_places=3) -> bool:
+def hrs(size: float, decimal_places: int=3) -> str:
     """
     Converts a file's size in bytes to a more human readable format.
     for unit in ['B','KiB','MiB','GiB','TiB']:
@@ -74,8 +76,8 @@ def hrs(size, decimal_places=3) -> bool:
     return f"{size:.{decimal_places}f} {unit}"
 
 
-def r(cmd): return run(cmd, shell=True,
-                       capture_output=True, text=True).stdout.rstrip()
+def r(cmd: str) -> str: 
+    return run(cmd, shell=True, capture_output=True, text=True).stdout.rstrip()
 
 
 def isVideo(_file: str) -> bool:
@@ -138,11 +140,11 @@ def isDir(_directory: str) -> bool:
     return False
 
 
-def parseCookieFile(cookiefile: str) -> dict:
+def parseCookieFile(cookiefile: str) -> Dict[str, str]:
     """Parse a cookies.txt file and return a dictionary of key value pairs
     compatible with requests."""
 
-    cookies: dict = {}
+    cookies: Dict[str, str] = {}
     with open(cookiefile, 'r') as fp:
         for line in fp:
             if not re.match(r'^\#', line) and line not in ['\n']:
@@ -150,14 +152,14 @@ def parseCookieFile(cookiefile: str) -> dict:
                 cookies[lineFields[-1 - 1]] = lineFields[-1]
     return cookies
 
-def parseHeaders(Headers: str) -> dict:
+def parseHeaders(Headers: str) -> Dict[str, str]:
     """
     Converts a multi-line string containing HTTP headers into a dictionary.
     :param Headers: A multi-line string with an HTTP header on each line.
     :type Headers: str
     :rtype: dict
     """
-    parsed = {}
+    parsed: Dict[str, str] = {}
     list_parsed = [
         [i.split(":")[0], i.split(":")[-1][1:]]
         if i.split(":")[-1][0] == " "
