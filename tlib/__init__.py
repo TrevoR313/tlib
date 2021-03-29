@@ -1,4 +1,4 @@
-from typing import List, Dict, Callable
+from typing import List, Dict
 from sys import stdin
 from os import path
 from requests import get
@@ -6,12 +6,8 @@ from tqdm import tqdm
 from subprocess import run
 import re
 
-<<<<<<< HEAD
 
-def download(url: str, fname: str):
-=======
 def download(url: str, fname: str) -> None:
->>>>>>> c38d0a06f6e43d44d1c148338c81251dc784fdf1
     try:
         with open(fname, "ab") as f, tqdm(
         ) as bar:
@@ -33,15 +29,10 @@ def download(url: str, fname: str) -> None:
     except KeyboardInterrupt:
         quit()
 
-<<<<<<< HEAD
 
-def gen(num, sep):
-    i, o = 0, ""
-=======
 def gen(num: int, sep: str) -> str:
     i: int = 0
     o: str = ""
->>>>>>> c38d0a06f6e43d44d1c148338c81251dc784fdf1
     while i < num:
         o += sep
         i += 1
@@ -71,7 +62,7 @@ def arch(line):
 def clean(str): return str.lstrip().rstrip().strip()
 
 
-def hrs(size: float, decimal_places: int=3) -> str:
+def hrs(size: float, decimal_places: int = 3) -> str:
     """
     Converts a file's size in bytes to a more human readable format.
     for unit in ['B','KiB','MiB','GiB','TiB']:
@@ -87,7 +78,7 @@ def hrs(size: float, decimal_places: int=3) -> str:
     return f"{size:.{decimal_places}f} {unit}"
 
 
-def r(cmd: str) -> str: 
+def r(cmd: str) -> str:
     return run(cmd, shell=True, capture_output=True, text=True).stdout.rstrip()
 
 
@@ -133,29 +124,7 @@ def isAudio(_file: str) -> bool:
         return False
 
 
-<<<<<<< HEAD
-def parseCookieFile(cookiefile: str) -> dict:
-=======
-def isDir(_directory: str) -> bool:
-    """
-    Checks if _directory is an actual directory and returns a corresponding bool.
-    :param _directory: Path the the directory.
-    :type _directory: str
-    :returns: A boolean that is True if _directory is a directory, returns False if it doesn't exist and/or it's not a directory.
-    :rtype: bool
-    """
-    try:
-        _dir = open(_directory, 'r')
-        _dir.close()
-    except IsADirectoryError:
-        return True
-    except FileNotFoundError:
-        return False
-    return False
-
-
 def parseCookieFile(cookiefile: str) -> Dict[str, str]:
->>>>>>> c38d0a06f6e43d44d1c148338c81251dc784fdf1
     """Parse a cookies.txt file and return a dictionary of key value pairs
     compatible with requests."""
 
@@ -167,12 +136,8 @@ def parseCookieFile(cookiefile: str) -> Dict[str, str]:
                 cookies[lineFields[-1 - 1]] = lineFields[-1]
     return cookies
 
-<<<<<<< HEAD
 
-def parseHeaders(Headers: str) -> dict:
-=======
 def parseHeaders(Headers: str) -> Dict[str, str]:
->>>>>>> c38d0a06f6e43d44d1c148338c81251dc784fdf1
     """
     Converts a multi-line string containing HTTP headers into a dictionary.
     :param Headers: A multi-line string with an HTTP header on each line.
@@ -189,4 +154,3 @@ def parseHeaders(Headers: str) -> Dict[str, str]:
     for i in list_parsed:
         parsed.update({i[0]: i[-1]})
     return parsed
-
